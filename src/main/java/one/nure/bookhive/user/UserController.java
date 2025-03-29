@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v0.1/users")
+@RequestMapping(path = "api/v01/users")
 public class UserController {
     private final UserService userService;
 
