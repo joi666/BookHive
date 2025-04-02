@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import one.nure.bookhive.book.author.Author;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -11,10 +14,15 @@ import lombok.ToString;
 @ToString
 @Table(name = "genres")
 public class Genre {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long genre_id;
+
     private String genre_name;
+
+    @ManyToMany(mappedBy = "genres")
+    private Set<Author> authors;
 
     public Genre() {
     }

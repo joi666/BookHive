@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -13,18 +14,20 @@ import java.util.Date;
 @ToString
 @Table(name = "users")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public String user_id;
-    public String user_password;
-    public Date account_creation_date;
-    public String user_name;
-    public String user_lastname;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID user_id;
+
+    private String user_password;
+    private Date account_creation_date;
+    private String user_name;
+    private String user_lastname;
 
     public User() {
     }
 
-    public User(String user_id, String user_password, Date account_creation_date, String user_name, String user_lastname) {
+    public User(UUID user_id, String user_password, Date account_creation_date, String user_name, String user_lastname) {
         this.user_id = user_id;
         this.user_password = user_password;
         this.account_creation_date = account_creation_date;

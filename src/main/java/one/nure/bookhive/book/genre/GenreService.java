@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public class GenreService {
+
     private final GenreRepository genreRepository;
 
     @Autowired

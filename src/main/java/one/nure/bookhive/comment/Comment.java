@@ -15,15 +15,19 @@ import java.util.Date;
 @ToString
 @Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
     @OneToOne
     @JoinColumn(name = "book_id")
     private Book book;
+
     private String comment_body;
     private Integer comment_likes;
     private Date comment_date;

@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/v01/users")
 public class UserController {
+
     private final UserService userService;
 
     @Autowired
@@ -31,7 +33,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public void deleteUser (@RequestParam String user_id) {
+    public void deleteUser (@RequestParam UUID user_id) {
         userService.deleteUser(user_id);
     }
 }

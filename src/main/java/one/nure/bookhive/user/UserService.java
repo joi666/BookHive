@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -30,7 +32,7 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-    public void deleteUser (String user_id) {
+    public void deleteUser (UUID user_id) {
         if (!userRepository.existsById(user_id)) {
             throw new IllegalArgumentException("User not found with id: " + user_id);
         }
