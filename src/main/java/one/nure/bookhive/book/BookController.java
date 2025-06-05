@@ -16,23 +16,23 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/getAll")
     public List<Book> getBooks() {
         return bookService.getBooks();
     }
 
-    @PostMapping
+    @PostMapping(path = "/create")
     public Book createBook(@RequestBody Book book) {
         return bookService.createBook(book);
     }
 
-    @PutMapping
-    public Book updateBook(@RequestBody Book book) {
-        return bookService.updateBook(book);
+    @PutMapping(path = "/update/{bookId}")
+    public Book updateBook(@PathVariable Long bookId, @RequestBody Book book) {
+        return bookService.updateBook(bookId, book);
     }
 
-    @DeleteMapping
-    public void deleteBook(@RequestParam Long id) {
-        bookService.deleteBook(id);
+    @DeleteMapping(path = "/delete/{bookId}")
+    public void deleteBook(@PathVariable Long bookId) {
+        bookService.deleteBook(bookId);
     }
 }

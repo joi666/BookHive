@@ -1,9 +1,8 @@
 package one.nure.bookhive.book.genre;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import one.nure.bookhive.book.Book;
 import one.nure.bookhive.book.author.Author;
 
 import java.util.Set;
@@ -12,6 +11,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "genres")
 public class Genre {
 
@@ -19,20 +20,9 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long genre_id;
 
-    private String genre_name;
+    @Column(name = "genre_name")
+    private String genreName;
 
     @ManyToMany(mappedBy = "genres")
-    private Set<Author> authors;
-
-    public Genre() {
-    }
-
-    public Genre(Long genre_id, String genre_name) {
-        this.genre_id = genre_id;
-        this.genre_name = genre_name;
-    }
-
-    public Genre(String genre_name) {
-        this.genre_name = genre_name;
-    }
+    private Set<Book> books;
 }

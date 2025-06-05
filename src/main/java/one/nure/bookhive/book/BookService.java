@@ -11,7 +11,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
     @Autowired
-    public BookService(BookService bookService, BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -23,10 +23,10 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Book updateBook (Book book) {
-        Book existingBook = bookRepository.findById(book.getBook_id()).orElseThrow(() ->
-                new IllegalArgumentException("Book not found with id: " + book.getBook_id()));
-        //insert new data to existing book
+    public Book updateBook (Long bookId, Book book) {
+        Book existingBook = bookRepository.findById(bookId).orElseThrow(() ->
+                new IllegalArgumentException("Book not found with id: " + book.getBookId()));
+        // insert new data to existing book
         return bookRepository.save(existingBook);
     }
 
