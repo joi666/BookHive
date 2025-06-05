@@ -16,23 +16,33 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping
-    public List<Comment> getComments() {
-        return commentService.getComments();
+    @GetMapping(path = "/{bookId}")
+    public List<Comment> getBookComments(@PathVariable Long bookId) {
+        return commentService.findByBook(bookId);
     }
 
-    @PostMapping
+    @PostMapping(path = "/create")
     public Comment createComment(@RequestBody Comment comment) {
         return commentService.createComment(comment);
     }
 
-    @PutMapping
-    public Comment updateComment(@RequestBody Comment comment) {
-        return commentService.updateComment(comment);
+    @PutMapping(path = "/updateComment/{commentId}")
+    public Comment updateCommentLikes(@PathVariable Long commentId, @RequestParam Integer likeValue) {
+        return commentService.updateCommentLikes(commentId, likeValue);
     }
 
-    @DeleteMapping
-    public void deleteComment(@RequestParam Long comment_id) {
-        commentService.deleteComment(comment_id);
-    }
+//    @GetMapping
+//    public List<Comment> getComments() {
+//        return commentService.getComments();
+//    }
+
+//    @PutMapping
+//    public Comment updateComment(@RequestBody Comment comment) {
+//        return commentService.updateComment(comment);
+//    }
+
+//    @DeleteMapping
+//    public void deleteComment(@RequestParam Long comment_id) {
+//        commentService.deleteComment(comment_id);
+//    }
 }
