@@ -3,6 +3,7 @@ package one.nure.bookhive.listofbooks;
 import one.nure.bookhive.book.Book;
 import one.nure.bookhive.book.BookRepository;
 import one.nure.bookhive.book.genre.Genre;
+import one.nure.bookhive.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,50 @@ public class ListOfBooksService {
         this.bookRepository = bookRepository;
     }
 
-    public ListOfBooks updateList(ListOfBooks listOfBooks) {
-        ListOfBooks existingList = listOfBooksRepository.findById(listOfBooks.getId()).orElseThrow(() ->
-                new IllegalArgumentException("List not found with id: " + listOfBooks.getId()));
-        //insert new data to existing list
-        return listOfBooksRepository.save(existingList);
+    public ListOfBooks addBookToTheList(User user, Book book, String status) {
+        ListOfBooks listOfBooks = new ListOfBooks();
+
+        listOfBooks.setUser(user);
+        listOfBooks.setBook(book);
+        listOfBooks.setStatus("status");
+
+        return listOfBooksRepository.save(listOfBooks);
+    }
+
+    public ListOfBooks updateBookStatus(ListId listId, String status) {
+        try {
+            ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
+                    new IllegalArgumentException("Book not found"));
+
+            updatedBook.setStatus(status);
+            return listOfBooksRepository.save(updatedBook);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ListOfBooks updatePagesRead(ListId listId, Integer pagesRead) {
+        try {
+            ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
+                    new IllegalArgumentException("Book not found"));
+
+            updatedBook.setPages_read(pagesRead);
+            return listOfBooksRepository.save(updatedBook);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ListOfBooks updateBooksRating(ListId listId, Integer rating) {
+        try {
+            ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
+                    new IllegalArgumentException("Book not found"));
+
+            updatedBook.setBook_rating(rating);
+            return listOfBooksRepository.save(updatedBook);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Book> bookRecommendation(UUID userId) {
@@ -68,25 +108,28 @@ public class ListOfBooksService {
             return recommendedBooks.stream()
                     .sorted(Comparator.comparing(Book::getRating).reversed())
                     .collect(Collectors.toList());
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-//    public Iterable<ListOfBooks> getLists() {
-//        return listOfBooksRepository.findAll();
-//    }
+    public List<ListOfBooks> getPlannedBooks(UUID userId) {
+        return listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Заплановані");
+    }
 
-//    public ListOfBooks addBookToList(ListOfBooks listOfBooks) {
-//        return listOfBooksRepository.save(listOfBooks);
-//    }
+    public List<ListOfBooks> getReadingBooks(UUID userId) {
+        return listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Читаю");
+    }
 
-//    public void deleteBookFromList(ListId listId) {
-//        if (listOfBooksRepository.existsById(listId)) {
-//            throw new IllegalArgumentException("List not found with id: " + listId);
-//        }
-//        listOfBooksRepository.deleteById(listId);
-//    }
+    public List<ListOfBooks> getAbandonedBooks(UUID userId) {
+        return listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Покинуті");
+    }
 
+    public void deleteBookFromList(ListId listId) {
+        try {
+            listOfBooksRepository.deleteById(listId);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Book not found in list");
+        }
+    }
 }
