@@ -26,7 +26,14 @@ public class BookService {
     public Book updateBook (Long bookId, Book book) {
         Book existingBook = bookRepository.findById(bookId).orElseThrow(() ->
                 new IllegalArgumentException("Book not found with id: " + book.getBookId()));
-        // insert new data to existing book
+
+        existingBook.setGenres(book.getGenres());
+        existingBook.setAuthors(book.getAuthors());
+        existingBook.setTitle(book.getTitle());
+        existingBook.setPublishing_year(book.getPublishing_year());
+        existingBook.setPages(book.getPages());
+        existingBook.setRating(book.getRating());
+
         return bookRepository.save(existingBook);
     }
 

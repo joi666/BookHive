@@ -16,18 +16,18 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/getAll")
     public List<Author> getAuthors() {
         return authorService.getAuthors();
     }
 
-    @PostMapping
+    @PostMapping(path = "/create")
     public Author addAuthor(@RequestBody Author author) {
         return authorService.createAuthor(author);
     }
 
-    @PutMapping
-    public Author updateAuthor(@RequestBody Author author) {
-        return authorService.updateAuthor(author);
+    @PutMapping(path = "/update/{authorId}")
+    public Author updateAuthor(@PathVariable Long authorId, @RequestBody Author author) {
+        return authorService.updateAuthor(authorId, author);
     }
 }

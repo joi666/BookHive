@@ -17,7 +17,7 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/getAll")
     public List<Genre> getGenres() {
         return genreService.getGenres();
     }

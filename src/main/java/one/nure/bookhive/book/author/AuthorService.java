@@ -23,10 +23,13 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    public Author updateAuthor(Author author) {
-        Author existingAuthor = authorRepository.findById(author.getAuthor_id()).orElseThrow(() ->
+    public Author updateAuthor(Long authorId, Author author) {
+        Author existingAuthor = authorRepository.findById(authorId).orElseThrow(() ->
                 new IllegalArgumentException("Author not found with id: " + author.getAuthor_id()));
-        //insert new data to existing author
+
+        existingAuthor.setAuthor_fullname(author.getAuthor_fullname());
+        existingAuthor.setBooks(author.getBooks());
+
         return authorRepository.save(existingAuthor);
     }
 }
