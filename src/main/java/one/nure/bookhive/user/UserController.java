@@ -17,14 +17,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public List<User> getUsers() {
-        return userService.getUsers();
+    @PutMapping(path = "/register")
+    public User register(@RequestBody User user) {
+        return userService.registerUser(user);
     }
 
-    @PostMapping
-    public User createUser (@RequestBody User user) {
-        return userService.createUser(user);
+    @GetMapping(path = "/login")
+    public User login(@RequestParam("email") String email, @RequestParam("password") String password) {
+        return userService.loginUser(email, password);
     }
 
     @PutMapping
@@ -32,8 +32,18 @@ public class UserController {
         return userService.updateUser(user);
     }
 
-    @DeleteMapping
-    public void deleteUser (@RequestParam UUID user_id) {
-        userService.deleteUser(user_id);
-    }
+//    @GetMapping
+//    public List<User> getUsers() {
+//        return userService.getUsers();
+//    }
+//
+//    @PostMapping
+//    public User createUser (@RequestBody User user) {
+//        return userService.createUser(user);
+//    }
+//
+//    @DeleteMapping
+//    public void deleteUser (@RequestParam UUID user_id) {
+//        userService.deleteUser(user_id);
+//    }
 }
