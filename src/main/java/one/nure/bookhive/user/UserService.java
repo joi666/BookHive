@@ -1,12 +1,9 @@
 package one.nure.bookhive.user;
 
-import one.nure.bookhive.book.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,26 +56,23 @@ public class UserService {
         }
     }
 
-    public User updateUser (User user) {
-        User existingUser = userRepository.findById(user.getUser_id()).orElseThrow(() ->
-                new IllegalArgumentException("User not found with id: " + user.getUser_id()));
-        //insert new data to existing book
+    public User updateUser (UUID userId, User user) {
+        User existingUser = userRepository.findById(user.getUserId()).orElseThrow(() ->
+                new IllegalArgumentException("User not found with id: " + user.getUserId()));
+
+        existingUser.setUser_lastname(user.getUser_lastname());
+        existingUser.setUser_name(user.getUser_name());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+
         return userRepository.save(existingUser);
     }
 
-//    public List<User> getUsers() {
-//        return userRepository.findAll();
-//    }
-
-//    public User createUser (User user) {
-//        return userRepository.save(user);
-//    }
-
-//    public void deleteUser (UUID user_id) {
-//        try {
-//            userRepository.deleteById(user_id);
-//        } catch (IllegalArgumentException e) {
-//            throw new IllegalArgumentException("User not found with id: " + user_id);
-//        }
-//    }
+    public void deleteUser (UUID userId) {
+        try {
+            userRepository.deleteById(userId);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+    }
 }

@@ -3,7 +3,6 @@ package one.nure.bookhive.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,23 +26,13 @@ public class UserController {
         return userService.loginUser(email, password);
     }
 
-    @PutMapping
-    public User updateUser (@RequestBody User user) {
-        return userService.updateUser(user);
+    @PutMapping(path = "/update/{userId}")
+    public User updateUser (@PathVariable UUID userId, @RequestBody User user) {
+        return userService.updateUser(userId, user);
     }
 
-//    @GetMapping
-//    public List<User> getUsers() {
-//        return userService.getUsers();
-//    }
-//
-//    @PostMapping
-//    public User createUser (@RequestBody User user) {
-//        return userService.createUser(user);
-//    }
-//
-//    @DeleteMapping
-//    public void deleteUser (@RequestParam UUID user_id) {
-//        userService.deleteUser(user_id);
-//    }
+    @DeleteMapping(path = "/delete/{userId}")
+    public void deleteUser (@PathVariable UUID userId) {
+        userService.deleteUser(userId);
+    }
 }
