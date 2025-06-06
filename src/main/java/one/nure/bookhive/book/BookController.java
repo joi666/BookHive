@@ -16,9 +16,19 @@ public class BookController {
         this.bookService = bookService;
     }
 
+//    @GetMapping(path = "/getAll")
+//    public List<Book> getBooks() {
+//        return bookService.getBooks();
+//    }
+
     @GetMapping(path = "/getAll")
-    public List<Book> getBooks() {
+    public List<BookDTO> getBooks() {
         return bookService.getBooks();
+    }
+
+    @GetMapping(path = "/getBook/{bookId}")
+    public BookDTO getBook(@PathVariable long bookId) {
+        return bookService.getBookById(bookId);
     }
 
     @PostMapping(path = "/create")

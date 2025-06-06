@@ -5,6 +5,7 @@ import lombok.*;
 import one.nure.bookhive.book.author.Author;
 import one.nure.bookhive.book.genre.Genre;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -38,7 +39,7 @@ public class Book {
     private Set<Author> authors;
 
     private String title;
-    private Integer publishing_year;
+    private LocalDate publishing_year;
     private Integer pages;
     private Double rating;
 }

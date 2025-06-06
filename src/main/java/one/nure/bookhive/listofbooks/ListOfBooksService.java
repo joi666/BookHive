@@ -27,7 +27,7 @@ public class ListOfBooksService {
 
         listOfBooks.setUser(user);
         listOfBooks.setBook(book);
-        listOfBooks.setStatus("status");
+        listOfBooks.setStatus(status);
 
         return listOfBooksRepository.save(listOfBooks);
     }
