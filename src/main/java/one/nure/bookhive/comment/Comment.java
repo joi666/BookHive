@@ -1,18 +1,18 @@
 package one.nure.bookhive.comment;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import one.nure.bookhive.book.Book;
 import one.nure.bookhive.user.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "comments")
 public class Comment {
 
@@ -20,35 +20,15 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
     private String comment_body;
     private Integer comment_likes;
-    private Date comment_date;
-
-    public Comment() {
-    }
-
-    public Comment(Long comment_id, User user, Book book, String comment_body, Integer comment_likes, Date comment_date) {
-        this.comment_id = comment_id;
-        this.user = user;
-        this.book = book;
-        this.comment_body = comment_body;
-        this.comment_likes = comment_likes;
-        this.comment_date = comment_date;
-    }
-
-    public Comment(User user, Book book, String comment_body, Integer comment_likes, Date comment_date) {
-        this.user = user;
-        this.book = book;
-        this.comment_body = comment_body;
-        this.comment_likes = comment_likes;
-        this.comment_date = comment_date;
-    }
+    private LocalDate comment_date;
 }

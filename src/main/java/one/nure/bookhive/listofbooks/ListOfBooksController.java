@@ -1,6 +1,7 @@
 package one.nure.bookhive.listofbooks;
 
 import one.nure.bookhive.book.Book;
+import one.nure.bookhive.book.BookDTO;
 import one.nure.bookhive.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,9 @@ public class ListOfBooksController {
         this.listOfBooksService = listOfBooksService;
     }
 
-    @PostMapping(path = "/addBook")
-    public ListOfBooks addBookToTheList(@RequestParam User user, @RequestParam Book book, @RequestParam String status) {
-        return listOfBooksService.addBookToTheList(user, book, status);
+    @PostMapping(path = "/addBook/{bookId}")
+    public ListOfBooksDTO addBookToTheList(@PathVariable Long bookId, @RequestParam UUID userId, @RequestParam String status) {
+        return listOfBooksService.addBookToTheList(bookId, userId, status);
     }
 
     @PutMapping(path = "/updateBookStatus/{listId}")
@@ -40,22 +41,22 @@ public class ListOfBooksController {
     }
 
     @GetMapping(path = "/recommendation/{userId}")
-    public List<Book> recommendation(@PathVariable UUID userId) {
+    public List<BookDTO> recommendation(@PathVariable UUID userId) {
         return listOfBooksService.bookRecommendation(userId);
     }
 
     @GetMapping(path = "/getBooks/planned/{userId}")
-    public List<ListOfBooks> getPlannedBooks(@PathVariable UUID userId) {
+    public List<ListOfBooksDTO> getPlannedBooks(@PathVariable UUID userId) {
         return listOfBooksService.getPlannedBooks(userId);
     }
 
     @GetMapping(path = "/getBooks/reading/{userId}")
-    public List<ListOfBooks> getReadingBooks(@PathVariable UUID userId) {
+    public List<ListOfBooksDTO> getReadingBooks(@PathVariable UUID userId) {
         return listOfBooksService.getReadingBooks(userId);
     }
 
     @GetMapping(path = "/getBooks/abandoned/{userId}")
-    public List<ListOfBooks> getAbandonedBooks(@PathVariable UUID userId) {
+    public List<ListOfBooksDTO> getAbandonedBooks(@PathVariable UUID userId) {
         return listOfBooksService.getAbandonedBooks(userId);
     }
 
