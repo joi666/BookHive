@@ -30,14 +30,24 @@ public class ListOfBooksController {
         return listOfBooksService.updateBookStatus(listId, status);
     }
 
-    @PutMapping(path = "/updatePagesRead/{listId}")
-    public ListOfBooks updatePagesRead(@PathVariable ListId listId, @RequestParam Integer pagesRead) {
-        return listOfBooksService.updatePagesRead(listId, pagesRead);
+//    @PutMapping(path = "/updatePagesRead/{listId}")
+//    public ListOfBooks updatePagesRead(@PathVariable ListId listId, @RequestParam Integer pagesRead) {
+//        return listOfBooksService.updatePagesRead(listId, pagesRead);
+//    }
+//
+//    @PutMapping(path = "/updateRating/{listId}")
+//    public ListOfBooks updateBooksRating(@PathVariable ListId listId, @RequestParam Integer rating) {
+//        return listOfBooksService.updateBooksRating(listId, rating);
+//    }
+
+    @PutMapping(path = "/updatePagesRead")
+    public ListOfBooksDTO updatePagesRead(@RequestParam UUID userId, @RequestParam Long bookId, @RequestParam Integer pagesRead) {
+        return listOfBooksService.updatePagesRead(userId, bookId, pagesRead);
     }
 
-    @PutMapping(path = "/updateRating/{listId}")
-    public ListOfBooks updateBooksRating(@PathVariable ListId listId, @RequestParam Integer rating) {
-        return listOfBooksService.updateBooksRating(listId, rating);
+    @PutMapping(path = "/updateRating")
+    public ListOfBooksDTO updateBooksRating(@RequestParam UUID userId, @RequestParam Long bookId, @RequestParam Integer rating) {
+        return listOfBooksService.updateBooksRating(userId, bookId, rating);
     }
 
     @GetMapping(path = "/recommendation/{userId}")

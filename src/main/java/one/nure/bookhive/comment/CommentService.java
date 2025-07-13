@@ -50,6 +50,9 @@ public class CommentService {
             Book book = comment.getBook();
             ListOfBooks listOfBooks = listOfBooksRepository.findByUser_UserIdAndBook_BookId(user.getUserId(),
                     book.getBookId());
+            if (listOfBooks == null) {
+                continue;
+            }
             CommentDTO commentDTO = getCommentDTO(comment, user, listOfBooks);
 
             commentsDTO.add(commentDTO);
