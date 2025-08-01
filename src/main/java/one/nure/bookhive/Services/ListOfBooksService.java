@@ -63,25 +63,27 @@ public class ListOfBooksService {
         }
     }
 
-    public ListOfBooks updatePagesRead(ListId listId, Integer pagesRead) {
+    public ListOfBooksDTO updatePagesRead(UUID userId, Long bookId, Integer pagesRead) {
         try {
+            ListId listId = new ListId(userId, bookId);
             ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
                     new IllegalArgumentException("Book not found"));
 
             updatedBook.setPages_read(pagesRead);
-            return listOfBooksRepository.save(updatedBook);
+            return convertToListOfBooksDTO(listOfBooksRepository.save(updatedBook));
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ListOfBooks updateBooksRating(ListId listId, Integer rating) {
+    public ListOfBooksDTO updateBooksRating(UUID userId, Long bookId, Integer rating) {
         try {
+            ListId listId = new ListId(userId, bookId);
             ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
                     new IllegalArgumentException("Book not found"));
 
             updatedBook.setBook_rating(rating);
-            return listOfBooksRepository.save(updatedBook);
+            return convertToListOfBooksDTO(listOfBooksRepository.save(updatedBook));
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
@@ -101,7 +103,7 @@ public class ListOfBooksService {
             List<Genre> top3Genres = countGenres.entrySet().stream()
                     .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
                     .map(Map.Entry::getKey)
-                    .limit(3) // Берем только топ-3 жанра
+                    .limit(3)
                     .toList();
 
             List<BookDTO> recommendedBooks = new ArrayList<>();
@@ -155,7 +157,7 @@ public class ListOfBooksService {
             // и от туда выбрать другие книги, которые они читали
 
             return recommendedBooks.stream()
-                    .distinct() // Убираем возможные дубликаты
+                    .distinct()
                     .sorted(Comparator.comparing(BookDTO::getRating).reversed())
                     .collect(Collectors.toList());
         } catch (Exception e) {
