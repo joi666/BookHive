@@ -3,17 +3,21 @@ package one.nure.bookhive.Services;
 import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
-    private final Pattern EMAIL_PATTERN = Pattern.compile("\\w+[@]\\w+[.]\\w{1,3}");
+    private final Pattern EMAIL_PATTERN = Pattern.compile("\\w+@\\w+[.]\\w{1,3}");
 
     private final UserRepository userRepository;
 
@@ -23,7 +27,7 @@ public class UserService {
     }
 
     public User registerUser (User user) {
-        try {;
+        try {
             Matcher emailMatcher = EMAIL_PATTERN.matcher(user.getEmail());
             if (emailMatcher.find()) {
                 User newUser = new User();
@@ -59,7 +63,7 @@ public class UserService {
     }
 
     public User updateUser (UUID userId, User user) {
-        User existingUser = userRepository.findById(user.getUserId()).orElseThrow(() ->
+        User existingUser = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("User not found with id: " + user.getUserId()));
 
         existingUser.setUser_lastname(user.getUser_lastname());
@@ -76,5 +80,22 @@ public class UserService {
         } catch (Exception e) {
             throw new IllegalArgumentException("User not found with id: " + userId);
         }
+    }
+
+    /**
+     * Loads user details by email (used as username in authentication).
+     * May be fixed in the future (implement authentication by username or email).
+     */
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                Collections.emptyList()
+        );
     }
 }

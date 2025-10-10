@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment properties & unnecessary files ###
 /src/main/resources/application.properties
+backup/
