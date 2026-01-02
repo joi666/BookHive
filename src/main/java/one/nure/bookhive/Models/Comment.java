@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "comments")
+/* TODO: Test everything before deleting commented lines of code, add a new logic for likes */
 public class Comment {
 
     @Id
@@ -27,6 +28,6 @@ public class Comment {
     private Book book;
 
     private String comment_body;
-    private Integer comment_likes;
+//    private Integer comment_likes;
     private LocalDate comment_date;
 }

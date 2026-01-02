@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/v01/comments")
+/* TODO: Test everything before deleting commented lines of code, add a new logic for likes */
 public class CommentController {
 
     private final CommentService commentService;
@@ -30,8 +31,9 @@ public class CommentController {
         return commentService.createComment(bookId, userId, commentBody);
     }
 
-    @PutMapping(path = "/updateComment/{commentId}")
-    public Comment updateCommentLikes(@PathVariable Long commentId, @RequestParam Integer likeValue) {
-        return commentService.updateCommentLikes(commentId, likeValue);
-    }
+//    @PutMapping(path = "/updateComment/{commentId}")
+//    public Comment updateCommentLikes(@PathVariable Long commentId, @RequestParam Integer likeValue) {
+//        return commentService.updateCommentLikes(commentId, likeValue);
+//    }
+
 }

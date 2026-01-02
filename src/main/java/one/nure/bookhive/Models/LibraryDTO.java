@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListOfBooksDTO {
+public class LibraryDTO {
     private BookDTO book;
     private String status;
     private Integer pages_read;

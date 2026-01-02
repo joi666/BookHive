@@ -7,10 +7,10 @@ import one.nure.bookhive.Models.Author;
 import one.nure.bookhive.Models.Genre;
 import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Repositories.UserRepository;
-import one.nure.bookhive.Models.ListId;
-import one.nure.bookhive.Models.ListOfBooks;
-import one.nure.bookhive.Models.ListOfBooksDTO;
-import one.nure.bookhive.Repositories.ListOfBooksRepository;
+import one.nure.bookhive.Models.LibraryId;
+import one.nure.bookhive.Models.Library;
+import one.nure.bookhive.Models.LibraryDTO;
+import one.nure.bookhive.Repositories.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,72 +18,72 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ListOfBooksService {
+public class LibraryService {
 
-    private final ListOfBooksRepository listOfBooksRepository;
+    private final LibraryRepository libraryRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public ListOfBooksService(ListOfBooksRepository listOfBooksRepository, BookRepository bookRepository, UserRepository userRepository) {
-        this.listOfBooksRepository = listOfBooksRepository;
+    public LibraryService(LibraryRepository libraryRepository, BookRepository bookRepository, UserRepository userRepository) {
+        this.libraryRepository = libraryRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
     }
 
-    public ListOfBooksDTO addBookToTheList(Long bookId, UUID userId, String status) {
-        ListOfBooks listOfBooks = new ListOfBooks();
+    public LibraryDTO addBookToTheLibrary(Long bookId, UUID userId, String status) {
+        Library library = new Library();
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("User not found with id: " + userId));
         Book book = bookRepository.findById(bookId).orElseThrow(() ->
                 new IllegalArgumentException("Book not found with id " + bookId));
 
-        ListId id = new ListId();
+        LibraryId id = new LibraryId();
         id.setUser_id(userId);
         id.setBook_id(bookId);
 
-        listOfBooks.setId(id);
-        listOfBooks.setUser(user);
-        listOfBooks.setBook(book);
-        listOfBooks.setStatus(status);
+        library.setId(id);
+        library.setUser(user);
+        library.setBook(book);
+        library.setStatus(status);
 
-        listOfBooksRepository.save(listOfBooks);
-        return convertToListOfBooksDTO(listOfBooks);
+        libraryRepository.save(library);
+        return convertToLibraryDTO(library);
     }
 
-    public ListOfBooks updateBookStatus(ListId listId, String status) {
+    public Library updateBookStatus(LibraryId libraryId, String status) {
         try {
-            ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
+            Library updatedBook = libraryRepository.findById(libraryId).orElseThrow(() ->
                     new IllegalArgumentException("Book not found"));
 
             updatedBook.setStatus(status);
-            return listOfBooksRepository.save(updatedBook);
+            return libraryRepository.save(updatedBook);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ListOfBooksDTO updatePagesRead(UUID userId, Long bookId, Integer pagesRead) {
+    public LibraryDTO updatePagesRead(UUID userId, Long bookId, Integer pagesRead) {
         try {
-            ListId listId = new ListId(userId, bookId);
-            ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
+            LibraryId libraryId = new LibraryId(userId, bookId);
+            Library updatedBook = libraryRepository.findById(libraryId).orElseThrow(() ->
                     new IllegalArgumentException("Book not found"));
 
             updatedBook.setPages_read(pagesRead);
-            return convertToListOfBooksDTO(listOfBooksRepository.save(updatedBook));
+            return convertToLibraryDTO(libraryRepository.save(updatedBook));
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ListOfBooksDTO updateBooksRating(UUID userId, Long bookId, Integer rating) {
+    public LibraryDTO updateBooksRating(UUID userId, Long bookId, Integer rating) {
         try {
-            ListId listId = new ListId(userId, bookId);
-            ListOfBooks updatedBook = listOfBooksRepository.findById(listId).orElseThrow(() ->
+            LibraryId libraryId = new LibraryId(userId, bookId);
+            Library updatedBook = libraryRepository.findById(libraryId).orElseThrow(() ->
                     new IllegalArgumentException("Book not found"));
 
             updatedBook.setBook_rating(rating);
-            return convertToListOfBooksDTO(listOfBooksRepository.save(updatedBook));
+            return convertToLibraryDTO(libraryRepository.save(updatedBook));
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
@@ -91,9 +91,9 @@ public class ListOfBooksService {
 
     public List<BookDTO> bookRecommendation(UUID userId) {
         try {
-            List<ListOfBooks> list = listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Читаю");
+            List<Library> list = libraryRepository.findByUser_UserIdAndStatus(userId, "Читаю");
             Map<Genre, Integer> countGenres = new HashMap<>();
-            for (ListOfBooks bookInList : list) {
+            for (Library bookInList : list) {
                 Book book = bookInList.getBook();
                 for (Genre genre : book.getGenres()) {
                     countGenres.put(genre, countGenres.getOrDefault(genre, 0) + 1);
@@ -114,7 +114,7 @@ public class ListOfBooksService {
 
                 List<Book> books = bookRepository.findBookWithExactGenres(singleGenreSet, 1);
                 for (Book book : books) {
-                    if (!listOfBooksRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
+                    if (!libraryRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
                         recommendedBooks.add(convertToBookDTO(book));
                     }
                 }
@@ -128,7 +128,7 @@ public class ListOfBooksService {
 
                     List<Book> books = bookRepository.findBookWithExactGenres(twoGenreSet, 2);
                     for (Book book : books) {
-                        if (!listOfBooksRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
+                        if (!libraryRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
                             recommendedBooks.add(convertToBookDTO(book));
                         }
                     }
@@ -140,7 +140,7 @@ public class ListOfBooksService {
 
                 List<Book> books = bookRepository.findBookWithExactGenres(threeGenreSet, 3);
                 for (Book book : books) {
-                    if (!listOfBooksRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
+                    if (!libraryRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
                         recommendedBooks.add(convertToBookDTO(book));
                     }
                 }
@@ -165,29 +165,29 @@ public class ListOfBooksService {
         }
     }
 
-    public List<ListOfBooksDTO> getPlannedBooks(UUID userId) {
-        List<ListOfBooks> books = listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Заплановані");
-        List<ListOfBooksDTO> booksDTOs = new ArrayList<>();
-        for (ListOfBooks book : books) {
-            booksDTOs.add(convertToListOfBooksDTO(book));
+    public List<LibraryDTO> getPlannedBooks(UUID userId) {
+        List<Library> books = libraryRepository.findByUser_UserIdAndStatus(userId, "Заплановані");
+        List<LibraryDTO> booksDTOs = new ArrayList<>();
+        for (Library book : books) {
+            booksDTOs.add(convertToLibraryDTO(book));
         }
         return booksDTOs;
     }
 
-    public List<ListOfBooksDTO> getReadingBooks(UUID userId) {
-        List<ListOfBooks> books = listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Читаю");
-        List<ListOfBooksDTO> booksDTOs = new ArrayList<>();
-        for (ListOfBooks book : books) {
-            booksDTOs.add(convertToListOfBooksDTO(book));
+    public List<LibraryDTO> getReadingBooks(UUID userId) {
+        List<Library> books = libraryRepository.findByUser_UserIdAndStatus(userId, "Читаю");
+        List<LibraryDTO> booksDTOs = new ArrayList<>();
+        for (Library book : books) {
+            booksDTOs.add(convertToLibraryDTO(book));
         }
         return booksDTOs;
     }
 
-    public List<ListOfBooksDTO> getAbandonedBooks(UUID userId) {
-        List<ListOfBooks> books = listOfBooksRepository.findByUser_UserIdAndStatus(userId, "Покинуті");
-        List<ListOfBooksDTO> booksDTOs = new ArrayList<>();
-        for (ListOfBooks book : books) {
-            booksDTOs.add(convertToListOfBooksDTO(book));
+    public List<LibraryDTO> getAbandonedBooks(UUID userId) {
+        List<Library> books = libraryRepository.findByUser_UserIdAndStatus(userId, "Покинуті");
+        List<LibraryDTO> booksDTOs = new ArrayList<>();
+        for (Library book : books) {
+            booksDTOs.add(convertToLibraryDTO(book));
         }
         return booksDTOs;
     }
@@ -214,8 +214,9 @@ public class ListOfBooksService {
         return dto;
     }
 
-    public static ListOfBooksDTO convertToListOfBooksDTO(ListOfBooks book) {
-        ListOfBooksDTO bookDTO = new ListOfBooksDTO();
+    //TODO: Need to be reviewed (why "Library book"?)
+    public static LibraryDTO convertToLibraryDTO(Library book) {
+        LibraryDTO bookDTO = new LibraryDTO();
         bookDTO.setBook(convertToBookDTO(book.getBook()));
         bookDTO.setPages_read(book.getPages_read());
         bookDTO.setBook_rating(book.getBook_rating());
@@ -223,9 +224,9 @@ public class ListOfBooksService {
         return bookDTO;
     }
 
-    public void deleteBookFromList(ListId listId) {
+    public void deleteBookFromLibrary(LibraryId libraryId) {
         try {
-            listOfBooksRepository.deleteById(listId);
+            libraryRepository.deleteById(libraryId);
         } catch (Exception e) {
             throw new IllegalArgumentException("Book not found in list");
         }

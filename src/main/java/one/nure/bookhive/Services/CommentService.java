@@ -5,8 +5,8 @@ import one.nure.bookhive.Models.CommentDTO;
 import one.nure.bookhive.Repositories.CommentRepository;
 import one.nure.bookhive.Models.Book;
 import one.nure.bookhive.Repositories.BookRepository;
-import one.nure.bookhive.Models.ListOfBooks;
-import one.nure.bookhive.Repositories.ListOfBooksRepository;
+import one.nure.bookhive.Models.Library;
+import one.nure.bookhive.Repositories.LibraryRepository;
 import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,19 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+/* TODO: Test everything before deleting commented lines of code, add a new logic for likes */
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final ListOfBooksRepository listOfBooksRepository;
+    private final LibraryRepository libraryRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, BookRepository bookRepository, ListOfBooksRepository listOfBooksRepository, UserRepository userRepository) {
+    public CommentService(CommentRepository commentRepository, BookRepository bookRepository, LibraryRepository libraryRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.bookRepository = bookRepository;
-        this.listOfBooksRepository = listOfBooksRepository;
+        this.libraryRepository = libraryRepository;
         this.userRepository = userRepository;
     }
 
@@ -48,12 +49,12 @@ public class CommentService {
         for (Comment comment : comments) {
             User user = comment.getUser();
             Book book = comment.getBook();
-            ListOfBooks listOfBooks = listOfBooksRepository.findByUser_UserIdAndBook_BookId(user.getUserId(),
+            Library library = libraryRepository.findByUser_UserIdAndBook_BookId(user.getUserId(),
                     book.getBookId());
-            if (listOfBooks == null) {
+            if (library == null) {
                 continue;
             }
-            CommentDTO commentDTO = getCommentDTO(comment, user, listOfBooks);
+            CommentDTO commentDTO = getCommentDTO(comment, user, library);
 
             commentsDTO.add(commentDTO);
         }
@@ -66,24 +67,24 @@ public class CommentService {
         commentDTO.setComment_id(comment.getComment_id());
         commentDTO.setComment_date(comment.getComment_date());
         commentDTO.setComment_body(comment.getComment_body());
-        commentDTO.setComment_likes(comment.getComment_likes());
+//        commentDTO.setComment_likes(comment.getComment_likes());
         commentDTO.setUser_name(user.getUser_name());
         commentDTO.setUser_lastname(user.getUser_lastname());
 
         return commentDTO;
     }
 
-    private static CommentDTO getCommentDTO(Comment comment, User user, ListOfBooks listOfBooks) {
+    private static CommentDTO getCommentDTO(Comment comment, User user, Library library) {
         CommentDTO commentDTO = new CommentDTO();
 
         commentDTO.setComment_id(comment.getComment_id());
         commentDTO.setComment_date(comment.getComment_date());
         commentDTO.setComment_body(comment.getComment_body());
-        commentDTO.setComment_likes(comment.getComment_likes());
+//        commentDTO.setComment_likes(comment.getComment_likes());
         commentDTO.setUser_name(user.getUser_name());
         commentDTO.setUser_lastname(user.getUser_lastname());
-        if (listOfBooks.getBook_rating() != null) {
-            commentDTO.setBook_rating(listOfBooks.getBook_rating());
+        if (library.getBook_rating() != null) {
+            commentDTO.setBook_rating(library.getBook_rating());
         }
         return commentDTO;
     }
@@ -100,7 +101,7 @@ public class CommentService {
             comment.setUser(user);
             comment.setComment_body(commentBody);
             comment.setComment_date(LocalDate.now());
-            comment.setComment_likes(0);
+//            comment.setComment_likes(0);
 
             commentRepository.save(comment);
             return convertToCommentDTO(comment, user);
@@ -109,14 +110,14 @@ public class CommentService {
         }
     }
 
-    public Comment updateCommentLikes(Long commentId, Integer likeValue) {
-        try {
-            Comment existingComment = commentRepository.findById(commentId).orElseThrow(() ->
-                    new IllegalArgumentException("Comment not found"));
-            existingComment.setComment_likes(existingComment.getComment_likes() + likeValue);
-            return commentRepository.save(existingComment);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public Comment updateCommentLikes(Long commentId, Integer likeValue) {
+//        try {
+//            Comment existingComment = commentRepository.findById(commentId).orElseThrow(() ->
+//                    new IllegalArgumentException("Comment not found"));
+//            existingComment.setComment_likes(existingComment.getComment_likes() + likeValue);
+//            return commentRepository.save(existingComment);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
