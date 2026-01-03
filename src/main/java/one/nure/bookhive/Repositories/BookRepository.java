@@ -5,10 +5,12 @@ import one.nure.bookhive.Models.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     public List<Book> findBookByGenres(Set<Genre> genres);
     @Query("SELECT DISTINCT b FROM Book b WHERE " +

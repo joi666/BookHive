@@ -1,7 +1,7 @@
 package one.nure.bookhive.Services;
 
 import one.nure.bookhive.Models.Book;
-import one.nure.bookhive.Models.BookDTO;
+import one.nure.bookhive.Models.DataTransferObjects.BookDTO;
 import one.nure.bookhive.Repositories.BookRepository;
 import one.nure.bookhive.Models.Author;
 import one.nure.bookhive.Models.Genre;

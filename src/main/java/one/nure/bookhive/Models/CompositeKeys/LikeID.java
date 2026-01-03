@@ -1,4 +1,4 @@
-package one.nure.bookhive.Models;
+package one.nure.bookhive.Models.CompositeKeys;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;
@@ -12,9 +12,9 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class LibraryId implements Serializable {
+public class LikeID implements Serializable {
 
+    private Long comment_id;
     private UUID user_id;
-    private Long book_id;
 
 }

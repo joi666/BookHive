@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import one.nure.bookhive.Models.CompositeKeys.LibraryId;
 
 @Entity
 @Getter

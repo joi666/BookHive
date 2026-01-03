@@ -1,7 +1,6 @@
 package one.nure.bookhive.Controllers;
 
-import one.nure.bookhive.Models.Comment;
-import one.nure.bookhive.Models.CommentDTO;
+import one.nure.bookhive.Models.DataTransferObjects.CommentDTO;
 import one.nure.bookhive.Services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

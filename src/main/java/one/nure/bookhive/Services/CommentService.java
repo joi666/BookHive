@@ -1,7 +1,7 @@
 package one.nure.bookhive.Services;
 
 import one.nure.bookhive.Models.Comment;
-import one.nure.bookhive.Models.CommentDTO;
+import one.nure.bookhive.Models.DataTransferObjects.CommentDTO;
 import one.nure.bookhive.Repositories.CommentRepository;
 import one.nure.bookhive.Models.Book;
 import one.nure.bookhive.Repositories.BookRepository;

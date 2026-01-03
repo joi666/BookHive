@@ -1,4 +1,4 @@
-package one.nure.bookhive.Models;
+package one.nure.bookhive.Models.DataTransferObjects;
 
 import lombok.*;
 

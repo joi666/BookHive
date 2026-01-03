@@ -1,10 +1,10 @@
 package one.nure.bookhive.Controllers;
 
 import one.nure.bookhive.Services.LibraryService;
-import one.nure.bookhive.Models.BookDTO;
-import one.nure.bookhive.Models.LibraryId;
+import one.nure.bookhive.Models.DataTransferObjects.BookDTO;
+import one.nure.bookhive.Models.CompositeKeys.LibraryId;
 import one.nure.bookhive.Models.Library;
-import one.nure.bookhive.Models.LibraryDTO;
+import one.nure.bookhive.Models.DataTransferObjects.LibraryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,15 +1,15 @@
 package one.nure.bookhive.Services;
 
 import one.nure.bookhive.Models.Book;
-import one.nure.bookhive.Models.BookDTO;
+import one.nure.bookhive.Models.DataTransferObjects.BookDTO;
 import one.nure.bookhive.Repositories.BookRepository;
 import one.nure.bookhive.Models.Author;
 import one.nure.bookhive.Models.Genre;
 import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Repositories.UserRepository;
-import one.nure.bookhive.Models.LibraryId;
+import one.nure.bookhive.Models.CompositeKeys.LibraryId;
 import one.nure.bookhive.Models.Library;
-import one.nure.bookhive.Models.LibraryDTO;
+import one.nure.bookhive.Models.DataTransferObjects.LibraryDTO;
 import one.nure.bookhive.Repositories.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

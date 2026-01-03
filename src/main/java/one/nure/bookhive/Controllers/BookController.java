@@ -2,7 +2,7 @@ package one.nure.bookhive.Controllers;
 
 import one.nure.bookhive.Services.BookService;
 import one.nure.bookhive.Models.Book;
-import one.nure.bookhive.Models.BookDTO;
+import one.nure.bookhive.Models.DataTransferObjects.BookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
