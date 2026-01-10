@@ -49,7 +49,7 @@ public class DialogService {
         Dialog dialog = dialogRepository.findById(dialogId).orElseThrow(() ->
                 new IllegalArgumentException("Dialog not found"));
 
-        return dialog.getParticipants().contains(userId);
+        return dialog.getParticipants().stream().anyMatch(user -> user.getUserId().equals(userId));
     }
 
     public void deleteDialog(Long dialogId) {

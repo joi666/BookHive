@@ -24,6 +24,8 @@ public class DialogController {
     @PostMapping(path = "/create")
     public Dialog createDialog(@RequestParam UUID user1Id, @RequestParam UUID user2Id) {
         Set<UUID> userIds = new HashSet<>();
+        userIds.add(user1Id);
+        userIds.add(user2Id);
         return dialogService.createDialog(userIds);
     }
 
