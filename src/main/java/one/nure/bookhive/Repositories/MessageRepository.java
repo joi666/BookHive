@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    public List<Message> getDialogMessages(Long dialogId, UUID userId);
-    public List<Message> findMessageByDialogIdAndUser_UserIdAndIsReadFalse(Long dialogId, UUID userId);
+//    public List<Message> getDialogMessages(Long dialogId, UUID userId);
+    List<Message> findByDialogId(Long dialogId);
+    List<Message> findMessageByDialogIdAndUser_UserIdAndIsReadFalse(Long dialogId, UUID userId);
 }

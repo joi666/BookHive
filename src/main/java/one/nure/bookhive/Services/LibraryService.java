@@ -39,8 +39,10 @@ public class LibraryService {
                 new IllegalArgumentException("Book not found with id " + bookId));
 
         LibraryId id = new LibraryId();
-        id.setUser_id(userId);
-        id.setBook_id(bookId);
+//        id.setUser_id(userId);
+        id.setUserId(userId);
+//        id.setBook_id(bookId);
+        id.setBookId(bookId);
 
         library.setId(id);
         library.setUser(user);
@@ -205,7 +207,7 @@ public class LibraryService {
                 .collect(Collectors.toSet());
 
         Set<String> authors = book.getAuthors().stream()
-                .map(Author::getAuthor_fullname)
+                .map(Author::getAuthorFullname)
                 .collect(Collectors.toSet());
 
         dto.setGenres(genres);

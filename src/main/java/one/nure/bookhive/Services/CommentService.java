@@ -68,8 +68,8 @@ public class CommentService {
         commentDTO.setComment_date(comment.getComment_date());
         commentDTO.setComment_body(comment.getComment_body());
 //        commentDTO.setComment_likes(comment.getComment_likes());
-        commentDTO.setUser_name(user.getUser_name());
-        commentDTO.setUser_lastname(user.getUser_lastname());
+        commentDTO.setUser_name(user.getUserName());
+        commentDTO.setUser_lastname(user.getUserLastname());
 
         return commentDTO;
     }
@@ -81,8 +81,8 @@ public class CommentService {
         commentDTO.setComment_date(comment.getComment_date());
         commentDTO.setComment_body(comment.getComment_body());
 //        commentDTO.setComment_likes(comment.getComment_likes());
-        commentDTO.setUser_name(user.getUser_name());
-        commentDTO.setUser_lastname(user.getUser_lastname());
+        commentDTO.setUser_name(user.getUserName());
+        commentDTO.setUser_lastname(user.getUserLastname());
         if (library.getBook_rating() != null) {
             commentDTO.setBook_rating(library.getBook_rating());
         }

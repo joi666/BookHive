@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class LikeID implements Serializable {
 
-    private Long comment_id;
-    private UUID user_id;
+    private Long commentId;
+    private UUID userId;
 
 }

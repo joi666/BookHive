@@ -19,15 +19,15 @@ public class Library { //Needs to be renamed
     private LibraryId id;
 
     @ManyToOne
-    @MapsId("user_id")
+    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @MapsId("book_id")
+    @MapsId("bookId")
     @JoinColumn(name = "book_id")
-
     private Book book;
+
     private String status;
     private Integer pages_read;
     private Integer book_rating;

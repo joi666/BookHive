@@ -41,7 +41,7 @@ public class BookService {
                 .collect(Collectors.toSet());
 
         Set<String> authors = book.getAuthors().stream()
-                .map(Author::getAuthor_fullname)
+                .map(Author::getAuthorFullname)
                 .collect(Collectors.toSet());
 
         dto.setGenres(genres);

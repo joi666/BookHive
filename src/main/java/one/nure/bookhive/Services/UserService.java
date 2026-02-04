@@ -34,8 +34,8 @@ public class UserService implements UserDetailsService {
 
                 newUser.setEmail(user.getEmail());
                 newUser.setPassword(user.getPassword());
-                newUser.setUser_name(user.getUser_name());
-                newUser.setUser_lastname(user.getUser_lastname());
+                newUser.setUserName(user.getUserName());
+                newUser.setUserLastname(user.getUserLastname());
                 newUser.setAccount_creation_date(LocalDate.now());
 
                 return userRepository.save(newUser);
@@ -66,8 +66,8 @@ public class UserService implements UserDetailsService {
         User existingUser = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("User not found with id: " + user.getUserId()));
 
-        existingUser.setUser_lastname(user.getUser_lastname());
-        existingUser.setUser_name(user.getUser_name());
+        existingUser.setUserName(user.getUserName());
+        existingUser.setUserLastname(user.getUserLastname());
         existingUser.setEmail(user.getEmail());
         existingUser.setPassword(user.getPassword());
 

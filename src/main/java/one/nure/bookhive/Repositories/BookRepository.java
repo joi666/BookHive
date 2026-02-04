@@ -18,4 +18,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "(SELECT COUNT(g) FROM b.genres g WHERE g IN :genres) = :genreCount")
     List<Book> findBookWithExactGenres(@Param("genres") Set<Genre> genres,
                                        @Param("genreCount") long genreCount);
+    List<Book> findBooksByTitleContains(String input);
 }

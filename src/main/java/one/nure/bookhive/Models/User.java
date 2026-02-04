@@ -24,6 +24,8 @@ public class User {
     @Column(name = "user_password")
     private String password;
     private LocalDate account_creation_date;
-    private String user_name;
-    private String user_lastname;
+    @Column(name = "user_name")
+    private String userName;
+    @Column(name = "user_lastname")
+    private String userLastname;
 }

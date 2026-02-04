@@ -26,7 +26,8 @@ public class CommentLikeController {
 
     @GetMapping(path = "/getUserLike/{userID}")
     public byte getUserLikes(@PathVariable UUID userID) {
-        return commentLikeService.getUserLikes(userID);
+//        return commentLikeService.getUserLikes(userID);
+        return commentLikeService.getUserLike(userID);
     }
 
     @PostMapping

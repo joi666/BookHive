@@ -19,9 +19,9 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @GetMapping(path = "/get/{dialogId}/{userId}")
-    public List<Message> getDialogMessages(@PathVariable Long dialogId, @PathVariable UUID userId) {
-        return messageService.getDialogMessages(dialogId, userId);
+    @GetMapping(path = "/get/{dialogId}")
+    public List<Message> getDialogMessages(@PathVariable Long dialogId) {
+        return messageService.getDialogMessages(dialogId);
     }
 
     @PostMapping(path = "/create/{dialogId}/{userId}")

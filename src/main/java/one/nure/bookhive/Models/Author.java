@@ -18,7 +18,8 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long author_id;
 
-    private String author_fullname;
+    @Column(name = "author_fullname")
+    private String authorFullname;
 
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
@@ -28,10 +29,10 @@ public class Author {
 
     public Author(Long author_id, String author_fullname) {
         this.author_id = author_id;
-        this.author_fullname = author_fullname;
+        this.authorFullname = author_fullname;
     }
 
     public Author(String author_fullname) {
-        this.author_fullname = author_fullname;
+        this.authorFullname = author_fullname;
     }
 }

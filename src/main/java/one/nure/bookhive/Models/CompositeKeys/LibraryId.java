@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class LibraryId implements Serializable {
 
-    private UUID user_id;
-    private Long book_id;
+    private UUID userId;
+    private Long bookId;
 
 }

@@ -36,12 +36,21 @@ public class CommentLikeService {
         return commentLikeRepository.getSumOfLikesOfComment(commentID);
     }
 
-    public byte getUserLikes(UUID userID) {
-        if (!userRepository.existsById(userID)) {
-            throw new IllegalArgumentException("User not found with id: " + userID);
-        }
-        return commentLikeRepository.getLikeValueOfUser(userID);
+//    public byte getUserLikes(UUID userID) {
+//        if (!userRepository.existsById(userID)) {
+//            throw new IllegalArgumentException("User not found with id: " + userID);
+//        }
+//        return commentLikeRepository.getLikeValueOfUser(userID);
+//    }
+
+    public byte getUserLike(UUID userId) {
+        return commentLikeRepository
+                .findById_UserId(userId)
+                .map(CommentLike::getValue)
+                .orElse((byte) 0);
     }
+
+
 
     public CommentLike addCommentLike(Long commentID, UUID userID, byte value) {
         if (!commentRepository.existsById(commentID)) {

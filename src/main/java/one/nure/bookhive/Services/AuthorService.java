@@ -29,7 +29,7 @@ public class AuthorService {
         Author existingAuthor = authorRepository.findById(authorId).orElseThrow(() ->
                 new IllegalArgumentException("Author not found with id: " + author.getAuthor_id()));
 
-        existingAuthor.setAuthor_fullname(author.getAuthor_fullname());
+        existingAuthor.setAuthorFullname(author.getAuthorFullname());
         existingAuthor.setBooks(author.getBooks());
 
         return authorRepository.save(existingAuthor);

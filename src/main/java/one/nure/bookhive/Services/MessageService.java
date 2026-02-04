@@ -39,15 +39,12 @@ public class MessageService {
 
     }
 
-    public List<Message> getDialogMessages(Long dialogId, UUID userId) {
+    public List<Message> getDialogMessages(Long dialogId) {
         if (!dialogRepository.existsById(dialogId)) {
             throw new IllegalArgumentException("Dialog not found with id: " + dialogId);
         }
-        if (!userRepository.existsById(userId)) {
-            throw new IllegalArgumentException("User not found with id: " + userId);
-        }
 
-        return messageRepository.getDialogMessages(dialogId, userId);
+        return messageRepository.findByDialogId(dialogId);
     }
 
     public void markAsRead(Long dialogId, UUID userId) {
