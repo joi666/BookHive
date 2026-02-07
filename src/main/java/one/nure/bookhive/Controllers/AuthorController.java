@@ -23,6 +23,11 @@ public class AuthorController {
         return authorService.getAuthors();
     }
 
+    @GetMapping(path = "/{authorId}")
+    public Author getAuthor(@PathVariable Long authorId) {
+        return authorService.getAuthor(authorId);
+    }
+
     @PostMapping(path = "/create")
     public Author addAuthor(@RequestBody Author author) {
         return authorService.createAuthor(author);

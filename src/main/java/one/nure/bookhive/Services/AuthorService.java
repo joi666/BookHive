@@ -21,6 +21,10 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
+    public Author getAuthor(Long authorId) {
+        return authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("Author not found"));
+    }
+
     public Author createAuthor(Author author) {
         return authorRepository.save(author);
     }
