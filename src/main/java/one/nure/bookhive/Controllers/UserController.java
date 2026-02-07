@@ -1,5 +1,6 @@
 package one.nure.bookhive.Controllers;
 
+import one.nure.bookhive.Models.DataTransferObjects.UserDTO;
 import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,17 @@ public class UserController {
     }
 
     @PutMapping(path = "/register")
-    public User register(@RequestBody User user) {
+    public UserDTO register(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
     @GetMapping(path = "/login")
-    public User login(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public UserDTO login(@RequestParam("email") String email, @RequestParam("password") String password) {
         return userService.loginUser(email, password);
     }
 
     @PutMapping(path = "/update/{userId}")
-    public User updateUser (@PathVariable UUID userId, @RequestBody User user) {
+    public UserDTO updateUser (@PathVariable UUID userId, @RequestBody User user) {
         return userService.updateUser(userId, user);
     }
 

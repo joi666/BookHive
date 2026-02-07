@@ -1,5 +1,9 @@
 package one.nure.bookhive.Services;
 
+import one.nure.bookhive.Models.DataTransferObjects.AuthorShortDTO;
+import one.nure.bookhive.Models.DataTransferObjects.BookDTO;
+import one.nure.bookhive.Models.DataTransferObjects.UserDTO;
+import one.nure.bookhive.Models.Genre;
 import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,62 +30,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public User registerUser (User user) {
-        try {
-            Matcher emailMatcher = EMAIL_PATTERN.matcher(user.getEmail());
-            if (emailMatcher.find()) {
-                User newUser = new User();
-
-                newUser.setEmail(user.getEmail());
-                newUser.setPassword(user.getPassword());
-                newUser.setUserName(user.getUserName());
-                newUser.setUserLastname(user.getUserLastname());
-                newUser.setAccount_creation_date(LocalDate.now());
-
-                return userRepository.save(newUser);
-            }
-            else {
-                throw new IllegalArgumentException("Invalid email format");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public User loginUser (String email, String password) {
-        try {
-            Matcher emailMatcher = EMAIL_PATTERN.matcher(email);
-            if (emailMatcher.find()) {
-                return userRepository.findUserByEmailAndPassword(email, password);
-            }
-            else {
-                throw new IllegalArgumentException("Invalid email format");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public User updateUser (UUID userId, User user) {
-        User existingUser = userRepository.findById(userId).orElseThrow(() ->
-                new IllegalArgumentException("User not found with id: " + user.getUserId()));
-
-        existingUser.setUserName(user.getUserName());
-        existingUser.setUserLastname(user.getUserLastname());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
-
-        return userRepository.save(existingUser);
-    }
-
-    public void deleteUser (UUID userId) {
-        try {
-            userRepository.deleteById(userId);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("User not found with id: " + userId);
-        }
     }
 
     /**
@@ -97,5 +47,73 @@ public class UserService implements UserDetailsService {
                 user.getPassword(),
                 Collections.emptyList()
         );
+    }
+
+    public UserDTO registerUser (User user) {
+        try {
+            Matcher emailMatcher = EMAIL_PATTERN.matcher(user.getEmail());
+            if (emailMatcher.find()) {
+                User newUser = new User();
+
+                newUser.setEmail(user.getEmail());
+                newUser.setPassword(user.getPassword());
+                newUser.setUserName(user.getUserName());
+                newUser.setUserLastname(user.getUserLastname());
+                newUser.setAccount_creation_date(LocalDate.now());
+
+                return convertToUserDTO(userRepository.save(newUser));
+            }
+            else {
+                throw new IllegalArgumentException("Invalid email format");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UserDTO loginUser (String email, String password) {
+        try {
+            Matcher emailMatcher = EMAIL_PATTERN.matcher(email);
+            if (emailMatcher.find()) {
+                return convertToUserDTO(userRepository.findUserByEmailAndPassword(email, password));
+            }
+            else {
+                throw new IllegalArgumentException("Invalid email format");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UserDTO updateUser (UUID userId, User user) {
+        User existingUser = userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found with id: " + user.getUserId()));
+
+        existingUser.setUserName(user.getUserName());
+        existingUser.setUserLastname(user.getUserLastname());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+
+        return convertToUserDTO(userRepository.save(existingUser));
+    }
+
+    public void deleteUser (UUID userId) {
+        try {
+            userRepository.deleteById(userId);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+    }
+
+    public static UserDTO convertToUserDTO(User user) {
+        UserDTO dto = new UserDTO();
+
+        dto.setUserId(user.getUserId());
+        dto.setEmail(user.getEmail());
+        dto.setAccountCreationDate(user.getAccount_creation_date());
+        dto.setUserName(user.getUserName());
+        dto.setUserLastname(user.getUserLastname());
+
+        return dto;
     }
 }

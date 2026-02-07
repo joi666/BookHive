@@ -117,7 +117,7 @@ public class LibraryService {
                 List<Book> books = bookRepository.findBookWithExactGenres(singleGenreSet, 1);
                 for (Book book : books) {
                     if (!libraryRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
-                        recommendedBooks.add(convertToBookDTO(book));
+                        recommendedBooks.add(BookService.convertToBookDTO(book));
                     }
                 }
             }
@@ -131,7 +131,7 @@ public class LibraryService {
                     List<Book> books = bookRepository.findBookWithExactGenres(twoGenreSet, 2);
                     for (Book book : books) {
                         if (!libraryRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
-                            recommendedBooks.add(convertToBookDTO(book));
+                            recommendedBooks.add(BookService.convertToBookDTO(book));
                         }
                     }
                 }
@@ -143,7 +143,7 @@ public class LibraryService {
                 List<Book> books = bookRepository.findBookWithExactGenres(threeGenreSet, 3);
                 for (Book book : books) {
                     if (!libraryRepository.existsByUser_UserIdAndBook_BookId(userId, book.getBookId())) {
-                        recommendedBooks.add(convertToBookDTO(book));
+                        recommendedBooks.add(BookService.convertToBookDTO(book));
                     }
                 }
             }
@@ -194,32 +194,10 @@ public class LibraryService {
         return booksDTOs;
     }
 
-    public static BookDTO convertToBookDTO(Book book) {
-        BookDTO dto = new BookDTO();
-        dto.setBookId(book.getBookId());
-        dto.setTitle(book.getTitle());
-        dto.setPublishing_year(book.getPublishing_year());
-        dto.setPages(book.getPages());
-        dto.setRating(book.getRating());
-
-        Set<String> genres = book.getGenres().stream()
-                .map(Genre::getGenreName)
-                .collect(Collectors.toSet());
-
-        Set<String> authors = book.getAuthors().stream()
-                .map(Author::getAuthorFullname)
-                .collect(Collectors.toSet());
-
-        dto.setGenres(genres);
-        dto.setAuthors(authors);
-
-        return dto;
-    }
-
     //TODO: Need to be reviewed (why "Library book"?)
     public static LibraryDTO convertToLibraryDTO(Library book) {
         LibraryDTO bookDTO = new LibraryDTO();
-        bookDTO.setBook(convertToBookDTO(book.getBook()));
+        bookDTO.setBook(BookService.convertToBookDTO(book.getBook()));
         bookDTO.setPages_read(book.getPages_read());
         bookDTO.setBook_rating(book.getBook_rating());
         bookDTO.setStatus(book.getStatus());

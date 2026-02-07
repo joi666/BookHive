@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDTO {
+
     private Long comment_id;
     private String user_name;
     private String user_lastname;
@@ -17,4 +18,5 @@ public class CommentDTO {
     private String comment_body;
     private Integer comment_likes;
     private LocalDate comment_date;
+
 }

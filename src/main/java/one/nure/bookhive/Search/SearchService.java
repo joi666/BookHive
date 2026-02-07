@@ -7,6 +7,7 @@ import one.nure.bookhive.Models.User;
 import one.nure.bookhive.Repositories.AuthorRepository;
 import one.nure.bookhive.Repositories.BookRepository;
 import one.nure.bookhive.Repositories.UserRepository;
+import one.nure.bookhive.Services.BookService;
 import one.nure.bookhive.Services.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class SearchService {
         List<Book> books = bookRepository.findBooksByTitleContains(input);
 
         for (Book book : books) {
-            bookResult.add(LibraryService.convertToBookDTO(book));
+            bookResult.add(BookService.convertToBookDTO(book));
         }
         return bookResult;
     }

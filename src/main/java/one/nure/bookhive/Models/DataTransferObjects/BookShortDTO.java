@@ -3,19 +3,17 @@ package one.nure.bookhive.Models.DataTransferObjects;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDTO {
+public class BookShortDTO {
+
     private Long bookId;
-    private Set<String> genres;
-    private Set<AuthorShortDTO> authors;
     private String title;
     private LocalDate publishingYear;
-    private Integer pages;
     private Double rating;
+
 }

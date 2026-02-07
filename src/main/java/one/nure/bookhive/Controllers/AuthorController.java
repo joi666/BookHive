@@ -1,6 +1,7 @@
 package one.nure.bookhive.Controllers;
 
 import one.nure.bookhive.Models.Author;
+import one.nure.bookhive.Models.DataTransferObjects.AuthorDTO;
 import one.nure.bookhive.Services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,22 +20,22 @@ public class AuthorController {
     }
 
     @GetMapping(path = "/getAll")
-    public List<Author> getAuthors() {
+    public List<AuthorDTO> getAuthors() {
         return authorService.getAuthors();
     }
 
     @GetMapping(path = "/{authorId}")
-    public Author getAuthor(@PathVariable Long authorId) {
+    public AuthorDTO getAuthor(@PathVariable Long authorId) {
         return authorService.getAuthor(authorId);
     }
 
     @PostMapping(path = "/create")
-    public Author addAuthor(@RequestBody Author author) {
+    public AuthorDTO addAuthor(@RequestBody Author author) {
         return authorService.createAuthor(author);
     }
 
     @PutMapping(path = "/update/{authorId}")
-    public Author updateAuthor(@PathVariable Long authorId, @RequestBody Author author) {
+    public AuthorDTO updateAuthor(@PathVariable Long authorId, @RequestBody Author author) {
         return authorService.updateAuthor(authorId, author);
     }
 }

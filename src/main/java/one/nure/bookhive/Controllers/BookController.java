@@ -30,12 +30,12 @@ public class BookController {
     }
 
     @PostMapping(path = "/create")
-    public Book createBook(@RequestBody Book book) {
+    public BookDTO createBook(@RequestBody Book book) {
         return bookService.createBook(book);
     }
 
     @PutMapping(path = "/update/{bookId}")
-    public Book updateBook(@PathVariable Long bookId, @RequestBody Book book) {
+    public BookDTO updateBook(@PathVariable Long bookId, @RequestBody Book book) {
         return bookService.updateBook(bookId, book);
     }
 
