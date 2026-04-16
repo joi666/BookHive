@@ -85,6 +85,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public UserDTO getUser (UUID userId) {
+        return convertToUserDTO(userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found with id: " + userId)));
+    }
+
     public UserDTO updateUser (UUID userId, User user) {
         User existingUser = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("User not found with id: " + user.getUserId()));

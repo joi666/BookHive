@@ -24,15 +24,17 @@ public class AuthController {
     JwtUtil jwtUtil;
 
     @PostMapping(path = "/signin")
+//    @GetMapping(path = "/signin")
     public String authenticate(@RequestBody User user) {
+//    public String authenticate(@RequestParam("email") String email, @RequestParam("password") String password) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
-                        user.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
         );
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return jwtUtil.generateToken(userDetails.getUsername());
+//        return jwtUtil.generateToken(UUID.fromString(userDetails.getUsername()));
+        String email = userDetails.getUsername(); // Це email!
+        User existingUser = userRepository.findUserByEmail(email);
+        return jwtUtil.generateToken(existingUser.getUserId());
     }
 
     @PostMapping(path = "/signup")
@@ -46,8 +48,8 @@ public class AuthController {
                 user.getEmail(),
                 passwordEncoder.encode(user.getPassword()),
                 user.getAccount_creation_date(),
-                user.getUser_name(),
-                user.getUser_lastname()
+                user.getUserName(),
+                user.getUserLastname()
         );
         userRepository.save(newUser);
         return "Registration was successful!";

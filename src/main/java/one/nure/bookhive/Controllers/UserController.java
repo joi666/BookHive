@@ -29,6 +29,11 @@ public class UserController {
         return userService.loginUser(email, password);
     }
 
+    @GetMapping(path = "/get/{userId}")
+    public UserDTO getUser(@PathVariable UUID userId) {
+        return userService.getUser(userId);
+    }
+
     @PutMapping(path = "/update/{userId}")
     public UserDTO updateUser (@PathVariable UUID userId, @RequestBody User user) {
         return userService.updateUser(userId, user);
