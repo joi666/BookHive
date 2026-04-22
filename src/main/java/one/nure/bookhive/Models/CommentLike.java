@@ -1,10 +1,10 @@
 package one.nure.bookhive.Models;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import one.nure.bookhive.Models.CompositeKeys.LikeID;
+
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,6 +18,16 @@ public class CommentLike {
 
     @EmbeddedId
     private LikeID id;
+
+    @OneToOne
+    @MapsId("commentId")
+    @JoinColumn(name = "comment_id")
+    private Long commentId;
+
+    @OneToOne
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private UUID userId;
 
     private byte value;
 
